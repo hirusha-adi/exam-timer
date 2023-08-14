@@ -1,0 +1,203 @@
+<!-- 
+    Template / Styling taken from:
+        https://codepen.io/AllThingsSmitty/pen/JJavZN
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Timer</title>
+
+    <style>
+        :root {
+            --smaller: 0.75;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            align-items: center;
+            background-color: #ffd54f;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans,
+                Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        }
+
+        .container {
+            color: #333;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .container h1 {
+            font-weight: normal;
+            letter-spacing: 0.125rem;
+            text-transform: uppercase;
+        }
+
+        .container li {
+            display: inline-block;
+            font-size: 1.5em;
+            list-style-type: none;
+            padding: 1em;
+            text-transform: uppercase;
+        }
+
+        .container li span {
+            display: block;
+            font-size: 4.5rem;
+        }
+
+        .emoji {
+            display: none;
+            padding: 1rem;
+        }
+
+        .emoji span {
+            font-size: 4rem;
+            padding: 0 0.5rem;
+        }
+
+        @media all and (max-width: 768px) {
+            .container h1 {
+                font-size: calc(1.5rem * var(--smaller));
+            }
+
+            .container li {
+                font-size: calc(1.125rem * var(--smaller));
+            }
+
+            .container li span {
+                font-size: calc(3.375rem * var(--smaller));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="headline">Computer Science Paper 1</h1>
+        <h3>(9618/12)</h3>
+        <div id="clockdiv-cs1">
+            <ul>
+                <li><span id="days"></span>days</li>
+                <li><span id="hours"></span>Hours</li>
+                <li><span id="minutes"></span>Minutes</li>
+                <li><span id="seconds"></span>Seconds</li>
+            </ul>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="container">
+        <h1 id="headline">Mathematics Pure 1</h1>
+        <h3>(9707/12)</h3>
+        <div id="clockdiv-m1">
+            <ul>
+                <li><span id="days"></span>days</li>
+                <li><span id="hours"></span>Hours</li>
+                <li><span id="minutes"></span>Minutes</li>
+                <li><span id="seconds"></span>Seconds</li>
+            </ul>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="container">
+        <h1 id="headline">Mathematics Statistics 2</h1>
+        <h3>(9707/52)</h3>
+        <div id="clockdiv-m5">
+            <ul>
+                <li><span id="days"></span>days</li>
+                <li><span id="hours"></span>Hours</li>
+                <li><span id="minutes"></span>Minutes</li>
+                <li><span id="seconds"></span>Seconds</li>
+            </ul>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="container">
+        <h1 id="headline">Computer Science Paper 2</h1>
+        <h3>(9618/22)</h3>
+        <div id="clockdiv-cs2">
+            <ul>
+                <li><span id="days"></span>days</li>
+                <li><span id="hours"></span>Hours</li>
+                <li><span id="minutes"></span>Minutes</li>
+                <li><span id="seconds"></span>Seconds</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function getTimeRemaining(endtime) {
+            var t = Date.parse(endtime) - Date.parse(new Date());
+            var seconds = Math.floor((t / 1000) % 60);
+            var minutes = Math.floor((t / 1000 / 60) % 60);
+            var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+            var days = Math.floor(t / (1000 * 60 * 60 * 24));
+            return {
+                'total': t,
+                'days': days,
+                'hours': hours,
+                'minutes': minutes,
+                'seconds': seconds
+            };
+        }
+
+        function initializeClock(id, endtime) {
+            var clock = document.getElementById(id);
+            var daysSpan = clock.querySelector('#days');
+            var hoursSpan = clock.querySelector('#hours');
+            var minutesSpan = clock.querySelector('#minutes');
+            var secondsSpan = clock.querySelector('#seconds');
+
+            function updateClock() {
+                var t = getTimeRemaining(endtime);
+                daysSpan.textContent = t.days;
+                hoursSpan.textContent = ('0' + t.hours).slice(-2);
+                minutesSpan.textContent = ('0' + t.minutes).slice(-2);
+                secondsSpan.textContent = ('0' + t.seconds).slice(-2);
+
+                if (t.total <= 0) {
+                    daysSpan.textContent = '0';
+                    hoursSpan.textContent = '0';
+                    minutesSpan.textContent = '0';
+                    secondsSpan.textContent = '0';
+                    clearInterval(timeinterval);
+                }
+            }
+
+            updateClock();
+            var timeinterval = setInterval(updateClock, 1000);
+        }
+
+        initializeClock('clockdiv-cs1', '11 October 2023 00:00');
+        initializeClock('clockdiv-m1', '11 October 2023 00:00');
+        initializeClock('clockdiv-m5', '13 October 2023 00:00');
+        initializeClock('clockdiv-cs2', '20 October 2023 00:00');
+
+    </script>
+
+</body>
+
+</html>
